@@ -1,0 +1,28 @@
+#!/bin/sh
+
+table=${0:5}
+
+case $1 in
+  config)
+    echo "graph_args -l 0"
+    echo "graph_title $table"
+    echo "graph_vlabel $table"
+    echo "$table.label $table"
+    exit 0;;
+esac
+
+for name in $(koha-list)
+do
+
+  kohaconfig="/etc/koha/sites/$name/koha-conf.xml"
+
+  mysqlhost="$( xmlstarlet sel -t -v 'yazgfs/config/hostname' $kohaconfig )"
+  mysqldb="$( xmlstarlet sel -t -v 'yazgfs/config/database' $kohaconfig )"
+  mysqluser="$( xmlstarlet sel -t -v 'yazgfs/config/user' $kohaconfig )"
+  mysqlpass="$( xmlstarlet sel -t -v 'yazgfs/config/pass' $kohaconfig )"
+
+  echo -n "$name.value "
+  mysql --host="$mysqlhost" --user="$mysqluser" --password="$mysqlpass" \
+    -e "SELECT COUNT(*) as count FROM $table\G" "$mysqldb" | grep count | cut -d' ' -f2
+
+done

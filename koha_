@@ -5,7 +5,7 @@
 # 
 # ln -s /home/user/munin-koha/koha_ /etc/munin/plugins/koha_items
 # 
-# This scrit needs to run as root, so add this to the file
+# This script needs to run as root, so add this to the file
 # /etc/munin/plugin-conf.d/munin-node:
 # 
 # [koha_*]

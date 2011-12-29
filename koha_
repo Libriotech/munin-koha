@@ -1,5 +1,20 @@
 #!/bin/sh
 
+# Link this script into /etc/munin/plugins, and add the name of the 
+# table you want to monitor after the underscore. To monitor items:
+# 
+# ln -s /home/user/munin-koha/koha_ /etc/munin/plugins/koha_items
+# 
+# This scrit needs to run as root, so add this to the file
+# /etc/munin/plugin-conf.d/munin-node:
+# 
+# [koha_*]
+# user root
+# 
+# And don't forget to restart munin afterwards: 
+# 
+# sudo /etc/init.d/munin-node restart
+
 table=${0##*koha_}
 
 case $1 in

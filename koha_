@@ -21,7 +21,7 @@ case $1 in
   config)
     echo "graph_args -l 0"
     echo "graph_title Koha $table"
-    echo "graph_vlabel $table"
+    echo "graph_vlabel Number of rows"
     for name in $(koha-list)
     do
       echo "$name.label $name"

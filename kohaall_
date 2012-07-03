@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Link this script into /etc/munin/plugins, and add the name of the 
+# table you want to monitor after the underscore. To monitor items:
+# 
+# sudo ln -s /home/user/munin-koha/kohaall_ /etc/munin/plugins/kohaall_items
+# 
+# This script needs to run as root, so add this to the file
+# /etc/munin/plugin-conf.d/munin-node:
+# 
+# [kohaall_*]
+# user root
+# 
+# And don't forget to restart munin afterwards: 
+# 
+# sudo /etc/init.d/munin-node restart
+
+table=${0##*kohaall_}
+
+case $1 in
+  config)
+    echo "graph_args -l 0"
+    echo "graph_title Koha $table"
+    echo "graph_vlabel Number of rows"
+    echo "graph_category Koha"
+    for name in $(koha-list)
+    do
+      echo "$name.label $name"
+    done
+    exit 0;;
+esac
+
+for name in $(koha-list)
+do
+
+  echo -n "$name.value "
+  echo "SELECT COUNT(*) as count FROM $table\G" | koha-mysql $name | grep count | cut -d' ' -f2
+
+done

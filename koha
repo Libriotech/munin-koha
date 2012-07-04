@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# FIXME - Documentation
+
+# Print the munin values
+values() {
+
+  # Number of koha instances
+  echo -n "inst.value "
+  koha-list | wc -l
+
+  # Number of zebras running
+  echo -n "zebra.value "
+  ps aux | grep zebrasrv | grep -v daemon | grep -v grep | wc -l
+
+}
+
+# Print the munin config
+config() {
+  echo 'graph_title Koha'
+  echo 'graph_info Misc Koha information'
+  echo 'graph_category Koha'
+  # echo 'graph_vlabel Number of hosts'
+
+  echo 'graph_args -l 0'
+  # echo 'graph_total total'
+
+  echo inst.label Instances
+  echo zebra.label Zebras
+}
+
+# Print autoconfiguration hint
+autoconf() {
+  if [ -e /usr/sbin/koha-list ]
+  then
+    echo "yes"
+  else
+    echo "no (koha-list not found)"
+  fi
+  exit
+}
+
+# Main
+case $1 in
+  config)
+    config
+    ;;
+  autoconf)
+    autoconf
+    ;;
+  *)
+    values
+    ;;
+esac

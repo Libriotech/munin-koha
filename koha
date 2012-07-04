@@ -22,7 +22,7 @@ config() {
   echo 'graph_category Koha'
   # echo 'graph_vlabel Number of hosts'
 
-  echo 'graph_args -l 0'
+  # echo 'graph_args -l 0'
   # echo 'graph_total total'
 
   echo inst.label Instances

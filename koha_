@@ -21,7 +21,7 @@ inst=$(  echo "$input" | cut -d _ -f 2 )
 
 case $1 in
   config)
-    echo "graph_args -l 0"
+    # echo "graph_args -l 0"
     echo "graph_title Koha $table for $inst"
     echo "graph_vlabel Number of rows"
     echo "graph_category Koha-$inst"

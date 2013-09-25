@@ -1,9 +1,10 @@
 #!/bin/sh
 
 # Link this script into /etc/munin/plugins, and add the name of the 
-# table you want to monitor after the underscore. To monitor items:
+# table you want to monitor after the underscore, then the instance name
+# of the instance you want to monitor. To monitor items for mylibrary:
 # 
-# sudo ln -s /home/user/munin-koha/koha_ /etc/munin/plugins/koha_items
+# sudo ln -s /home/user/munin-koha/koha_ /etc/munin/plugins/koha_items_mylibrary
 # 
 # This script needs to run as root, so add this to the file
 # /etc/munin/plugin-conf.d/munin-node:

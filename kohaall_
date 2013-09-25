@@ -23,6 +23,7 @@ case $1 in
     echo "graph_title Koha $table"
     echo "graph_vlabel Number of rows"
     echo "graph_category Koha"
+    echo "host_name koha"
     for name in $(koha-list)
     do
       echo "$name.label $name"

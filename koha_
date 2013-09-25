@@ -24,7 +24,8 @@ case $1 in
     # echo "graph_args -l 0"
     echo "graph_title Koha $table for $inst"
     echo "graph_vlabel Number of rows"
-    echo "graph_category Koha-$inst"
+    echo "graph_category $table"
+    echo "host_name $inst"
     echo "$table.label $table"
     exit 0;;
 esac

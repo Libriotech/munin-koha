@@ -20,6 +20,7 @@ config() {
   echo 'graph_title Koha'
   echo 'graph_info Misc Koha information'
   echo 'graph_category Koha'
+  echo "host_name koha"
   # echo 'graph_vlabel Number of hosts'
 
   # echo 'graph_args -l 0'

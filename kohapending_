@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Link this script into /etc/munin/plugins, and add the name of the 
+# instance you want to monitor after the underscore. To monitor 
+# pending messages for mylibrary:
+# 
+# sudo ln -s /home/user/munin-koha/koha_ /etc/munin/plugins/kohapending_mylibrary
+# 
+# This script needs to run as root, so add this to the file
+# /etc/munin/plugin-conf.d/munin-node:
+# 
+# [kohapending_*]
+# user root
+# 
+# And don't forget to restart munin afterwards: 
+# 
+# sudo /etc/init.d/munin-node restart
+
+# input=${0##*koha_}
+# inst=$( echo "$input" | cut -d _ -f 1 )
+
+inst=${0##*kohapending_}
+
+case $1 in
+  config)
+    # echo "graph_args -l 0"
+    echo "graph_title Koha pending messages for $inst"
+    echo "graph_vlabel Number of messages"
+    echo "graph_category Pending messages"
+    echo "host_name $inst"
+    echo "$inst.label Pending"
+    exit 0;;
+esac
+
+echo -n "$inst.value "
+echo "SELECT COUNT(*) as count FROM message_queue WHERE status = 'pending'\G" | koha-mysql $inst | grep count | cut -d' ' -f2

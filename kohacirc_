@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Link this script into /etc/munin/plugins, and add the name of the 
+# instance you want to monitor after the underscore. To monitor 
+# pending messages for mylibrary:
+# 
+# sudo ln -s /home/user/munin-koha/koha_ /etc/munin/plugins/kohapending_mylibrary
+# 
+# This script needs to run as root, so add this to the file
+# /etc/munin/plugin-conf.d/munin-node:
+# 
+# [kohapending_*]
+# user root
+# 
+# And don't forget to restart munin afterwards: 
+# 
+# sudo /etc/init.d/munin-node restart
+
+inst=${0##*kohacirc_}
+DATE=$(date +%F)
+
+case $1 in
+  config)
+    # echo "graph_args -l 0"
+    echo "graph_title Koha circulation for $inst"
+    echo "graph_vlabel Number of items"
+    echo "graph_category Circulation"
+    echo "host_name $inst"
+    echo "issues.label Issues"
+    echo "returns.label Returns"
+    echo "holds.label Holds"
+    exit 0;;
+esac
+
+echo -n "issues.value "
+echo "SELECT COUNT(*) AS count FROM issues WHERE issuedate LIKE '$DATE%'\G" | koha-mysql $inst | grep count | cut -d' ' -f2
+
+echo -n "returns.value "
+echo "SELECT COUNT(*) AS count FROM old_issues WHERE returndate LIKE '$DATE%'\G" | koha-mysql $inst | grep count | cut -d' ' -f2
+
+echo -n "holds.value "
+echo "SELECT COUNT(*) AS count FROM reserves WHERE reservedate LIKE '$DATE%'\G" | koha-mysql $inst | grep count | cut -d' ' -f2

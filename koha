@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# FIXME - Documentation
+# Show the total number of instances and the number of Zebra processes on
+# the server.
 
 # Print the munin values
 values() {

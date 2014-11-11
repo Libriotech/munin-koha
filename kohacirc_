@@ -2,7 +2,7 @@
 
 # Link this script into /etc/munin/plugins, and add the name of the 
 # instance you want to monitor after the underscore. To monitor 
-# pending messages for mylibrary:
+# circulation stats for mylibrary:
 # 
 # sudo ln -s /home/user/munin-koha/koha_ /etc/munin/plugins/kohapending_mylibrary
 # 
